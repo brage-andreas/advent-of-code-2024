@@ -1,5 +1,3 @@
-use std::fs;
-
 fn construct_file_path(crate_relative_path: String) -> String {
     let base_path = std::env::var("CARGO_MANIFEST_DIR").unwrap();
 
@@ -11,7 +9,7 @@ fn get_input_file_path() -> String {
 }
 
 fn read_file_relative_from_crate(relative_path: String) -> String {
-    fs::read_to_string(&relative_path).unwrap_or_else(|error| {
+    std::fs::read_to_string(&relative_path).unwrap_or_else(|error| {
         panic!(
             "Could not read from file `{}`\n  Error: {:?}",
             relative_path, error
