@@ -19,3 +19,13 @@ pub fn read_input(day: u8) -> String {
 
     read_file_relative_from_workspace_root(&input_file_path)
 }
+
+pub fn read_input_into_lines() -> Vec<String> {
+    read_input().split("\n").map(|line| line.to_string()).collect()
+}
+
+pub fn read_file(crate_relative_path: String) -> String {
+    let path = construct_file_path(crate_relative_path);
+    
+    read_file_relative_from_crate(path)
+}
