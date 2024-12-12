@@ -1,23 +1,28 @@
 use std::fs;
 
-fn get_input_file_path_from_day(day: u8) -> String {
-    format!("day-{:02}/src/input.txt", day)
+fn construct_file_path(crate_relative_path: String) -> String {
+    let base_path = std::env::var("CARGO_MANIFEST_DIR").unwrap();
+
+    format!("{}/{}", base_path, crate_relative_path.replace(r"^/", ""))
 }
 
-fn read_file_relative_from_workspace_root(relative_path: &str) -> String {
-    match fs::read_to_string(&relative_path) {
-        Ok(result) => result,
-        Err(error) => panic!(
-            "Could not read from local file `{}`\n  Message: \"{:?}\"",
-            &relative_path, &error
-        ),
-    }
+fn get_input_file_path() -> String {
+    construct_file_path("src/input.txt".to_string())
 }
 
-pub fn read_input(day: u8) -> String {
-    let input_file_path = get_input_file_path_from_day(day);
+fn read_file_relative_from_crate(relative_path: String) -> String {
+    fs::read_to_string(&relative_path).unwrap_or_else(|error| {
+        panic!(
+            "Could not read from file `{}`\n  Error: {:?}",
+            relative_path, error
+        )
+    })
+}
 
-    read_file_relative_from_workspace_root(&input_file_path)
+pub fn read_input() -> String {
+    let input_file_path = get_input_file_path();
+
+    read_file_relative_from_crate(input_file_path)
 }
 
 pub fn read_input_into_lines() -> Vec<String> {
