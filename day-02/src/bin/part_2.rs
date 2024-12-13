@@ -23,14 +23,14 @@ fn is_safe_sequence(sequence: Vec<u32>) -> u32 {
     1
 }
 
-fn part_1() -> u32 {
+fn part_2() -> u32 {
     let input = read_input_into_lines();
 
     input.iter().map(|line| is_safe_sequence(parse_line(line))).sum()
 }
 
 fn main() {
-    println!("{}", part_1());
+    println!("{}", part_2());
 }
 
 #[cfg(test)]
@@ -39,6 +39,6 @@ mod tests {
 
     #[test]
     fn part_1_test() {
-        assert_eq!(part_1(), 626)
+        assert_eq!(part_2(), 626)
     }
 }
