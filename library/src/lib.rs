@@ -1,3 +1,6 @@
+use std::fmt::Debug;
+use std::str::FromStr;
+
 fn construct_file_path(crate_relative_path: String) -> String {
     let base_path = std::env::var("CARGO_MANIFEST_DIR").unwrap();
 
@@ -31,4 +34,8 @@ pub fn read_file(crate_relative_path: String) -> String {
     let path = construct_file_path(crate_relative_path);
     
     read_file_relative_from_crate(path)
+}
+
+pub fn parse_line<T: FromStr>(line: &String) -> Vec<T> where <T as FromStr>::Err: Debug {
+    line.split_whitespace().map(|number| number.parse::<T>().unwrap()).collect()
 }
