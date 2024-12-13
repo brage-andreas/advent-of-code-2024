@@ -1,13 +1,10 @@
+use day_02_lib::get_predicate;
 use library::{parse_line, read_input_into_lines};
 
 const MAX_DIFFERENCE: u32 = 3;
 
 fn is_safe_sequence(sequence: Vec<u32>) -> u32 {
-    let predicate = if sequence[0] < sequence[1] {
-        |a: u32, b: u32| a < b
-    } else {
-        |a: u32, b: u32| a > b
-    };
+    let predicate = get_predicate(&sequence);
 
     for index in 1..sequence.len() {
         let a = sequence[index - 1];
