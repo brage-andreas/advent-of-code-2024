@@ -6,9 +6,8 @@ const MAX_DIFFERENCE: u32 = 3;
 fn is_safe_sequence(sequence: Vec<u32>) -> u32 {
     let predicate = get_predicate(&sequence);
 
-    for index in 1..sequence.len() {
-        let a = sequence[index - 1];
-        let b = sequence[index];
+    for window in sequence.windows(2) {
+        let (a, b) = (window[0], window[1]);
         
         if !predicate(a, b) || a.abs_diff(b) > MAX_DIFFERENCE {
             return 0;
