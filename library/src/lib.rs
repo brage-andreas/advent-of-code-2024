@@ -1,3 +1,4 @@
+use regex::Captures;
 use std::fmt::Debug;
 use std::str::FromStr;
 
@@ -27,15 +28,35 @@ pub fn read_input() -> String {
 }
 
 pub fn read_input_into_lines() -> Vec<String> {
-    read_input().split("\n").map(|line| line.to_string()).collect()
+    read_input()
+        .split("\n")
+        .map(|line| line.to_string())
+        .collect()
 }
 
 pub fn read_file(crate_relative_path: String) -> String {
     let path = construct_file_path(crate_relative_path);
-    
+
     read_file_relative_from_crate(path)
 }
 
-pub fn parse_line<T: FromStr>(line: &String) -> Vec<T> where <T as FromStr>::Err: Debug {
-    line.split_whitespace().map(|number| number.parse::<T>().unwrap()).collect()
+pub fn parse_line<T: FromStr>(line: &String) -> Vec<T>
+where
+    <T as FromStr>::Err: Debug,
+{
+    line.split_whitespace()
+        .map(|number| number.parse::<T>().unwrap())
+        .collect()
+}
+
+pub fn capture_parse<T: FromStr>(captures: &Captures, group_name: &str) -> T
+where
+    <T as FromStr>::Err: Debug,
+{
+    captures
+        .name(group_name)
+        .unwrap()
+        .as_str()
+        .parse::<T>()
+        .unwrap()
 }
