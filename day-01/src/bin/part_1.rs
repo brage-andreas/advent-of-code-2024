@@ -1,27 +1,10 @@
-use regex::Regex;
+use day_01_lib::parse_input;
 use library::read_input_into_lines;
 
 fn part_1() -> u32 {
     let input = read_input_into_lines();
 
-    let regex = Regex::new(r"(?<first_number>\d{5})\s+(?<second_number>\d{5})").unwrap();
-
-    let mut first_numbers: Vec<u32> = input
-        .iter()
-        .filter_map(|line| {
-            regex.captures(line).map(|capture| {
-                capture.name("first_number").unwrap().as_str().parse::<u32>().unwrap()
-            })
-        }).collect();
-
-    let mut second_numbers: Vec<u32> = input
-        .iter()
-        .filter_map(|line| {
-            regex.captures(line).map(|capture| {
-                capture.name("second_number").unwrap().as_str().parse::<u32>().unwrap()
-            })
-        })
-        .collect();
+    let (mut first_numbers, mut second_numbers) = parse_input(&input);
 
     first_numbers.sort();
     second_numbers.sort();
